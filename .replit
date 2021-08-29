@@ -1,1 +1,1 @@
-run = "npm run start"
+run = "npx npm run start"
