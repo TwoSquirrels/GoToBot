@@ -1,14 +1,16 @@
 import discord from "discord.js";
 import dotenv from "dotenv";
+import express from "express";
 import fetch from "node-fetch";
 
 const wait = (second: number): Promise<void> => new Promise(resolve => setTimeout(resolve, second * 1000));
 
 dotenv.config();
 const bot = new discord.Client({ intents: [discord.Intents.FLAGS.GUILDS] });
+const server = express();
 
 bot.once("ready", () => {
-  console.log("Ready!");
+  console.log("Ready to bot!");
 });
 
 bot.on("interactionCreate", async interaction => {
@@ -42,3 +44,6 @@ bot.on("interactionCreate", async interaction => {
 });
 
 bot.login(process.env.DISCORD_TOKEN);
+
+server.get("/", (req, res) => res.send("<h1>GoToBot is working!</h1>"));
+server.listen(3000, () => console.log("Ready to server!"));
