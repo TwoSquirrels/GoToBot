@@ -37,8 +37,13 @@ bot.on("interactionCreate", async interaction => {
           }
           await command.editReply("画像を生成中...");
         }
-        await wait(3);
-        await command.editReply(`GoTo ${dest} (\`Go To ${english}\`)`);
+        await command.editReply({
+          content: `GoTo ${dest} (\`Go To ${english}\`)`,
+          files: [{
+            attachment: "resources/goto.png",
+            name: `Go_To_${english.replace(/ /g, "_")}.png`,
+          }],
+        });
         break;
       }
     }
