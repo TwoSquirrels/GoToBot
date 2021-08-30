@@ -9,7 +9,8 @@ const commands = [
     .setName("goto")
     .setDescription("Reply GoTo image")
     .addStringOption(option => option.setName("行き先").setDescription("GoToの下に付く文字列").setRequired(true))
-    .addStringOption(option => option.setName("英語").setDescription("行き先の英語").setRequired(false)),
+    .addStringOption(option => option.setName("英語").setDescription("行き先の英語(未指定の場合はGoogle翻訳で翻訳したもの)").setRequired(false))
+    .addStringOption(option => option.setName("背景色").setDescription("背景のカラーコード(デフォルト:1BABDE)").setRequired(false)),
 ]
   .map(command => command.toJSON());
 
