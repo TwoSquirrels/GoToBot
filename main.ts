@@ -44,7 +44,7 @@ bot.on("interactionCreate", async interaction => {
           await command.editReply({
             content: `GoTo ${dest} (\`Go To ${english}\`)`,
             files: [{
-              attachment: await (await Jimp.create(128, 128, command.options.getString("背景色", false) ?? "1BABDE"))
+              attachment: await (await Jimp.create(256, 256, command.options.getString("背景色", false) ?? "1BABDE"))
                 .composite(await Jimp.read("resources/goto.png"), 0, 0)
                 .getBufferAsync(Jimp.MIME_PNG),
               name: `Go_To_${english.replace(/ /g, "_")}.png`,
