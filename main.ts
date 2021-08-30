@@ -43,7 +43,7 @@ bot.on("interactionCreate", async interaction => {
   }
 });
 
-bot.login(process.env.DISCORD_TOKEN);
+bot.login(process.env.BOT_TOKEN);
 
 server.get("/", (req, res) => res.send("<h1>GoToBot is working!</h1>"));
 server.listen(3000, () => console.log("Ready to server!"));

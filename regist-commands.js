@@ -13,16 +13,16 @@ const commands = [
 ]
 	.map(command => command.toJSON());
 
-const rest = new REST({ version: "9" }).setToken(process.env.DISCORD_TOKEN);
+const rest = new REST({ version: "9" }).setToken(process.env.BOT_TOKEN);
 
 (async () => {
 	try {
 	  await rest.put(
-	    Routes.applicationGuildCommands("881401847905124353", "475585936386686997"),
+	    Routes.applicationGuildCommands(process.env.BOT_ID, process.env.TEST_GUILD),
 	    { body: commands },
 	  );
 		await rest.put(
-			Routes.applicationCommands("881401847905124353"),
+			Routes.applicationCommands(process.env.BOT_ID),
 			{ body: commands },
 		);
 		console.log("Successfully registered application commands.");
