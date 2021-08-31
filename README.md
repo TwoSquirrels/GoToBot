@@ -2,7 +2,7 @@
 
 GoToトラベルのコラ画像を生成するDiscordBot
 
-[招待リンク](https://discord.com/api/oauth2/authorize?client_id=881401847905124353&permissions=1342229504&scope=bot%20applications.commands)
+[招待リンク](https://discord.com/api/oauth2/authorize?client_id=881401847905124353&permissions=1073777664&scope=bot%20applications.commands)
 
 ## 使い方
 

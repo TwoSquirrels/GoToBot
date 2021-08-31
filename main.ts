@@ -53,8 +53,20 @@ function execFile(file: string, args: string[]): Promise<void> {
     },
   };
 
+  const updateStatus = async () => {
+    if (!bot.user) return;
+    bot.user.setPresence({
+      status: "online",
+      activities: [{ name: `${(await bot.guilds.fetch()).size}個のギルドに入れられています。` }],
+    });
+  };
+
+  bot.on("guildCreate", guild => updateStatus());
+  bot.on("guildDelete", guild => updateStatus());
+
   bot.once("ready", () => {
     console.log("Ready to bot!");
+    updateStatus();
   });
 
   bot.on("interactionCreate", async interaction => {
