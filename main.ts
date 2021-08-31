@@ -34,7 +34,7 @@ function execFile(file: string, args: string[]): Promise<void> {
 
   const vipUsers = (process.env.VIP ?? "").split(",");
   const cooldown = {
-    time: Number(process.env.COOLTIME) * 1000,
+    time: Number(process.env.COOLTIME ?? "0") * 1000,
     ignoreUsers: vipUsers,
     users: new Array<{ id: string, time: number }>(),
     // check cooldown
