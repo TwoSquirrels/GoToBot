@@ -5,6 +5,9 @@ import os
 import sys
 from PIL import Image, ImageDraw, ImageFont
 
+# constants
+base_size = 128
+
 # args
 id = sys.argv[1]
 dest = sys.argv[2]
@@ -13,6 +16,7 @@ color = sys.argv[4]
 
 # load goto
 goto = Image.open("./resources/goto.png")
+ratio = (goto.size[0] / base_size, goto.size[1] / base_size)
 
 # set background
 image = Image.alpha_composite(
@@ -22,23 +26,23 @@ image = Image.alpha_composite(
 draw = ImageDraw.Draw(image)
 
 # overlay dest
-dest_font = ImageFont.truetype("./resources/LightNovelPOPv2.otf", 48)
-dest_size = draw.textsize(dest, font = dest_font)
-dest_font = ImageFont.truetype("./resources/LightNovelPOPv2.otf", int(min(48 * 240 / dest_size[0], 72)))
-dest_size = draw.textsize(dest, font = dest_font)
+dest_font = ImageFont.truetype("./resources/LightNovelPOPv2.otf", int(24 * ratio[1]))
+dest_size = dest_font.getsize(dest)
+dest_font = ImageFont.truetype("./resources/LightNovelPOPv2.otf", int(min(dest_font.size * 120 * ratio[0] / dest_size[0], 36 * ratio[1])))
+dest_size = dest_font.getsize(dest)
 draw.text(
-        ((goto.width - dest_size[0]) / 2, 180 - dest_size[1] / 2),
+        (int((goto.width - dest_size[0]) / 2), int(90 * ratio[1] - dest_size[1] / 2)),
         dest,
         font = dest_font,
         fill = (255, 255, 255, 255)
     )
 
 # overlay english
-english_font = ImageFont.truetype("./resources/AnonymousPro-Regular.ttf", 8)
+english_font = ImageFont.truetype("./resources/AnonymousPro-Regular.ttf", int(4 * ratio[1]))
 #english_size = draw.textsize(english, font = english_font)
 for i in range(len(english)):
     draw.text(
-            ((goto.width - len(english) * 8) / 2 + 2 + 8 * i, 224),
+            (int((goto.width - len(english) * english_font.size) / 2 + english_font.size / 2 + english_font.size * i), int(112 * ratio[1])),
             english[i],
             font = english_font,
             fill = (255, 255, 255, 255)
