@@ -32,6 +32,27 @@ function execFile(file: string, args: string[]): Promise<void> {
   const bot = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILDS] });
   const server = express();
 
+  const vipUsers = (process.env.VIP ?? "").split(",");
+  const cooldown = {
+    time: Number(process.env.COOLTIME) * 1000,
+    ignoreUsers: vipUsers,
+    users: new Array<{ id: string, time: number }>(),
+    // check cooldown
+    check: function (userId: string, now: number): boolean {
+      // ignore
+      if (this.ignoreUsers.includes(userId)) return true;
+      // refresh
+      this.users = this.users.filter(user => now < user.time + this.time);
+      // fetch
+      if (this.users.some(user => user.id === userId)) return false;
+      else {
+        // update
+        this.users.push({ id: userId, time: now });
+        return true;
+      }
+    },
+  };
+
   bot.once("ready", () => {
     console.log("Ready to bot!");
   });
@@ -40,6 +61,16 @@ function execFile(file: string, args: string[]): Promise<void> {
     try {
       if (interaction.isCommand()) {
         const command = interaction as Discord.CommandInteraction;
+        // cooldown
+        if (!cooldown.check(command.user.id, command.createdTimestamp)) {
+          command.reply({
+            content: "コマンドを送るのが早すぎます！\n" +
+              process.env.COOLTIME + "秒間、間隔を開けて送信してください。",
+            ephemeral: true,
+          });
+          return;
+        }
+        // each command
         switch (command.commandName) {
         case "goto":
           const dest = command.options.getString("行き先", true);
