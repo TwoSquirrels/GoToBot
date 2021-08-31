@@ -16,7 +16,7 @@ color = sys.argv[4]
 
 # load goto
 goto = Image.open("./resources/goto.png")
-ratio = (goto.size[0] / base_size, goto.size[1] / base_size)
+ratio = [s / base_size for s in goto.size]
 
 # set background
 image = Image.alpha_composite(
