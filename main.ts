@@ -96,7 +96,7 @@ function execFile(file: string, args: string[]): Promise<void> {
             const imageId = (await command.fetchReply()).id;
             await execFile("python3", ["gotoimage.py", imageId, dest, `Go To ${english}`, command.options.getString("背景色", false) ?? "1BABEF"]);
             await command.editReply({
-              content: `\`\`\`\nGoTo ${dest.replace(/```/g, "​`​``​")}\n\`\`\`\`\`\`\nGo To ${english.split("").join(" ")}\n\`\`\``,
+              content: `\`\`\`\nGOTO\n${dest.replace(/```/g, "​`​``​")}\n\`\`\`\`\`\`\nG o   T o   ${english.split("").join(" ")}\n\`\`\``,
               files: [{
                 attachment: `tmp/${imageId}.png`,
                 name: `Go_To_${english.replace(/\\|\/|:|\*|\?|"|<|>|\|/g, "_")}.png`,
