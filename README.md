@@ -17,16 +17,19 @@ GoToトラベルのコラ画像を生成するDiscordBot
 - discord.js
 - express
 - Google Apps Script (for translate)
+- Python3
+- Pillow
 
 ## 動かし方
 
 1. リポジトリをclone
 2. `npm i`を叩き`node_modules`をインストール
-3. DiscordBotを作成
-4. `.env`ファイルを作成し、`BOT_TOKEN`にDiscordBotのToken、`TRANSLATE_API`に翻訳APIのURL、`BOT_ID`にDiscordBotのID、`TEST_GUILD`にテスト用ギルドのIDを指定
-5. `npm run regist`を叩きコマンドを登録
-6. `npm run start`でBotを起動
-7. `Ctrl+C`でBotを終了
+3. `pip3 install Pillow`を叩きPillowをインストール
+4. DiscordBotを作成
+5. `.env`ファイルを作成し、`BOT_TOKEN`にDiscordBotのToken、`TRANSLATE_API`に翻訳APIのURL、`BOT_ID`にDiscordBotのID、`TEST_GUILD`にテスト用ギルドのIDを指定
+6. `npm run regist`を叩きコマンドを登録
+7. `npm run start`でBotを起動
+8. `Ctrl+C`でBotを終了
 
 ## License
 
