@@ -59,19 +59,23 @@ function execFile(file: string, args: string[]): Promise<void> {
 
   bot.on("interactionCreate", async interaction => {
     try {
+
       if (interaction.isCommand()) {
         const command = interaction as Discord.CommandInteraction;
+
         // cooldown
         if (!cooldown.check(command.user.id, command.createdTimestamp)) {
-          command.reply({
+          await command.reply({
             content: "コマンドを送るのが早すぎます！\n" +
               process.env.COOLTIME + "秒間、間隔を開けて送信してください。",
             ephemeral: true,
           });
           return;
         }
+
         // each command
         switch (command.commandName) {
+
         case "goto":
           const dest = command.options.getString("行き先", true);
           let english = command.options.getString("英語", false);
@@ -110,8 +114,22 @@ function execFile(file: string, args: string[]): Promise<void> {
             throw new Error(msg);
           }
           break;
+
+        case "shutdown":
+          if (process.env.TEST_GUILD || vipUsers.includes(command.user.id)) {
+            await command.reply("シャットダウンします。");
+            console.log("Shutdowning...");
+            process.exit();
+          } else command.reply({
+              content: "shutdownコマンドはVIPユーザー以外使用できません。",
+              ephemeral: true,
+            });
+          break;
+
         }
+
       }
+
     } catch (err) {
       console.error(err);
     }
