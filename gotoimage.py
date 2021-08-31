@@ -28,7 +28,7 @@ draw = ImageDraw.Draw(image)
 # overlay dest
 dest_font = ImageFont.truetype("./resources/LightNovelPOPv2.otf", int(24 * ratio[1]))
 dest_size = dest_font.getsize(dest)
-dest_font = ImageFont.truetype("./resources/LightNovelPOPv2.otf", int(min(dest_font.size * 120 * ratio[0] / dest_size[0], 36 * ratio[1])))
+dest_font = ImageFont.truetype("./resources/LightNovelPOPv2.otf", int(min(dest_font.size * 120 * ratio[0] / max(dest_size[0], 1), 36 * ratio[1])))
 dest_size = dest_font.getsize(dest)
 draw.text(
         (int((goto.width - dest_size[0]) / 2), int(90 * ratio[1] - dest_size[1] / 2)),
@@ -50,5 +50,5 @@ for i in range(len(english)):
 
 # output
 if not os.path.exists("tmp"):
-    os.mkdirs("tmp")
+    os.makedirs("tmp")
 image.save("tmp/" + id + ".png")

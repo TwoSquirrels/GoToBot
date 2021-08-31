@@ -7,11 +7,12 @@ import fetch from "node-fetch";
 import fs from "fs";
 
 const wait = (second: number): Promise<void> => new Promise(resolve => setTimeout(resolve, second * 1000));
-function exec(command: string): Promise<void> {
+function execFile(file: string, args: string[]): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    console.log(`[${new Date()}] ${command}`);
-    child.exec(
-      command,
+    console.log(`[${new Date()}] ${file} ${JSON.stringify(args)}`);
+    child.execFile(
+      file,
+      args,
       { windowsHide: true },
       (error: child.ExecException | null, stdout: string, stderr: string): void => {
         // 出力を改行ごとに分けてロギング
@@ -24,7 +25,6 @@ function exec(command: string): Promise<void> {
     );
   })
 };
-const escape = (str: string): string => str.replace(/\\/g, "\\\\").replace(/"/g, '\"');
 
 (async () => {
 
@@ -63,12 +63,12 @@ const escape = (str: string): string => str.replace(/\\/g, "\\\\").replace(/"/g,
           }
           try {
             const imageId = (await command.fetchReply()).id;
-            await exec(`python3 gotoimage.py ${imageId} "${escape(dest)}" "Go To ${escape(english)}" "${escape(command.options.getString("背景色", false) ?? "1BABEF")}"`);
+            await execFile("python3", ["gotoimage.py", imageId, dest, `Go To ${english}`, command.options.getString("背景色", false) ?? "1BABEF"]);
             await command.editReply({
-              content: `GoTo ${dest} (\`Go To ${english}\`)`,
+              content: `\`\`\`\nGoTo ${dest.replace(/```/g, "​`​``​")}\n\`\`\`\`\`\`\nGo To ${english.split("").join(" ")}\n\`\`\``,
               files: [{
                 attachment: `tmp/${imageId}.png`,
-                name: `Go_To_${english.replace(/ /g, "_")}.png`,
+                name: `Go_To_${english.replace(/\\|\/|:|\*|\?|"|<|>|\|/g, "_")}.png`,
               }],
             });
             await fs.promises.unlink(`tmp/${imageId}.png`);
